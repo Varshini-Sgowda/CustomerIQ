@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CustomerIQ — Advanced Customer Intelligence & Autonomous Analytics</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <!-- Chart.js for data visualizations -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-layout">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-logo">
+                    <div class="logo-icon">IQ</div>
+                    <div class="brand-text">
+                        <span class="brand-name">CustomerIQ</span>
+                        <span class="brand-badge">ENTERPRISE ML</span>
+                    </div>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <div class="nav-section-title">INTELLIGENCE WORKSPACES</div>
+                <a href="#/copilot" class="nav-item active" data-view="copilot">
+                    <span class="nav-icon">💬</span>
+                    <span class="nav-label">Ask CustomerIQ</span>
+                    <span class="nav-tag">NLP</span>
+                </a>
+                <a href="#/profiles" class="nav-item" data-view="profiles">
+                    <span class="nav-icon">👤</span>
+                    <span class="nav-label">Customer 360</span>
+                    <span class="nav-tag">SHAP</span>
+                </a>
+                <a href="#/alerts" class="nav-item" data-view="alerts">
+                    <span class="nav-icon">⚡</span>
+                    <span class="nav-label">Early-Warning Radar</span>
+                    <span class="nav-count" id="nav-alert-count">0</span>
+                </a>
+                <a href="#/future-lab" class="nav-item" data-view="future-lab">
+                    <span class="nav-icon">🧪</span>
+                    <span class="nav-label">Customer Future Lab</span>
+                    <span class="nav-tag tag-sim">TWIN</span>
+                </a>
+                <a href="#/opportunity-center" class="nav-item" data-view="opportunity-center">
+                    <span class="nav-icon">🎯</span>
+                    <span class="nav-label">Opportunity Center</span>
+                    <span class="nav-tag">ROI</span>
+                </a>
+
+                <div class="nav-section-title">ANALYTICS & GOVERNANCE</div>
+                <a href="#/insights" class="nav-item" data-view="insights">
+                    <span class="nav-icon">💡</span>
+                    <span class="nav-label">Automated Insights</span>
+                </a>
+                <a href="#/model-health" class="nav-item" data-view="model-health">
+                    <span class="nav-icon">🩺</span>
+                    <span class="nav-label">Model Health & Drift</span>
+                    <span class="nav-status-pill status-healthy" id="nav-health-status">STABLE</span>
+                </a>
+                <a href="#/reports" class="nav-item" data-view="reports">
+                    <span class="nav-icon">📑</span>
+                    <span class="nav-label">Executive Reports</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="dataset-meta-badge">
+                    <div class="meta-dot"></div>
+                    <div class="meta-info">
+                        <span class="meta-title" id="meta-customer-count">793 Accounts Loaded</span>
+                        <span class="meta-sub" id="meta-date-span">2014 - 2017 History</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace Container -->
+        <div class="main-content">
+            <!-- Global Top Bar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <div class="workspace-title-area">
+                        <h1 class="workspace-title" id="current-workspace-title">Ask CustomerIQ</h1>
+                        <span class="workspace-subtitle" id="current-workspace-subtitle">Natural-Language Autonomous Analytics Copilot</span>
+                    </div>
+                </div>
+
+                <div class="topbar-right">
+                    <div class="quick-kpi-pill">
+                        <span class="kpi-label">Projected 12M LTV:</span>
+                        <span class="kpi-val" id="topbar-ltv">$0</span>
+                    </div>
+                    <div class="quick-kpi-pill">
+                        <span class="kpi-label">Accounts:</span>
+                        <span class="kpi-val" id="topbar-accounts">793</span>
+                    </div>
+                    <button class="theme-toggle-btn" id="theme-toggle" title="Toggle Light/Dark Theme">
+                        <span class="theme-icon" id="theme-icon">🌙</span>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dynamic Workspace Views -->
+            <main class="workspace-body">
+
+                <!-- 1. ASK CUSTOMERIQ (COPILOT) VIEW -->
+                <section id="view-copilot" class="view-pane active">
+                    <div class="copilot-container">
+                        <!-- Suggested Questions Carousel / Grid -->
+                        <div class="copilot-suggested-section">
+                            <div class="suggested-header">
+                                <span class="suggested-icon">✨</span>
+                                <span class="suggested-title">Verified Business Analytical Operations</span>
+                            </div>
+                            <div class="suggested-pills">
+                                <button class="query-pill" data-q="Which customers have the highest predicted future LTV?">
+                                    Highest predicted future LTV
+                                </button>
+                                <button class="query-pill" data-q="Which high-value customers have not purchased recently?">
+                                    High-value dormant accounts
+                                </button>
+                                <button class="query-pill" data-q="Which customer segments contribute the most historical revenue?">
+                                    Segment revenue contribution
+                                </button>
+                                <button class="query-pill" data-q="What factors influence the LTV predictions?">
+                                    LTV model feature drivers
+                                </button>
+                                <button class="query-pill" data-q="Which customer groups have declining purchase frequency?">
+                                    Declining purchase frequency
+                                </button>
+                                <button class="query-pill" data-q="How does average order value vary across customer segments?">
+                                    AOV across segments
+                                </button>
+                                <button class="query-pill" data-q="What changes when the prediction horizon or business assumptions change?">
+                                    Prediction horizon sensitivity
+                                </button>
+                                <button class="query-pill" data-q="Which customers are unprofitable or producing negative margins?">
+                                    Negative margin accounts
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Copilot Search Input Bar -->
+                        <div class="copilot-input-card">
+                            <form id="copilot-form" class="copilot-form">
+                                <input type="text" id="copilot-input" class="copilot-search-input"
+                                    placeholder="Ask anything about customer lifetime value, segments, churn risk, or historical sales..." autocomplete="off">
+                                <button type="submit" class="copilot-submit-btn" id="copilot-submit">
+                                    <span>Analyze</span>
+                                    <span class="btn-arrow">→</span>
+                                </button>
+                            </form>
+                            <div class="input-safety-note">
+                                🔒 Deterministic Execution Engine: Zero LLM hallucinations, safe sandboxed calculations against verified customer dataset.
+                            </div>
+                        </div>
+
+                        <!-- Copilot Results Area -->
+                        <div id="copilot-response-area" class="copilot-response-area">
+                            <div class="copilot-empty-state" id="copilot-empty">
+                                <div class="empty-icon">💡</div>
+                                <h3>Ask a Question to Start Exploring</h3>
+                                <p>Select one of the suggested analytical operations above or enter your own commercial question in English.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 2. CUSTOMER 360 INTELLIGENCE PROFILES VIEW -->
+                <section id="view-profiles" class="view-pane">
+                    <div class="profiles-container">
+                        <!-- Top Filter & Search Controls -->
+                        <div class="profiles-controls-card">
+                            <div class="filter-group">
+                                <input type="text" id="customer-search" class="control-input" placeholder="Search by customer name or ID (e.g. AA-10315)...">
+                            </div>
+                            <div class="filter-group">
+                                <select id="customer-segment-filter" class="control-select">
+                                    <option value="">All Segments (793)</option>
+                                    <option value="Champions">Champions</option>
+                                    <option value="Loyal Customers">Loyal Customers</option>
+                                    <option value="Potential Loyalists">Potential Loyalists</option>
+                                    <option value="New Customers">New Customers</option>
+                                    <option value="Need Attention">Need Attention</option>
+                                    <option value="At Risk">At Risk</option>
+                                    <option value="About to Sleep">About to Sleep</option>
+                                    <option value="Hibernating">Hibernating</option>
+                                    <option value="Dormant / Lost">Dormant / Lost</option>
+                                </select>
+                            </div>
+                            <div class="filter-group">
+                                <select id="customer-sort-filter" class="control-select">
+                                    <option value="predicted_ltv_12m:desc">Sort: Highest Predicted LTV</option>
+                                    <option value="total_monetary:desc">Sort: Highest Lifetime Spend</option>
+                                    <option value="recency_days:desc">Sort: Most Inactive (Recency)</option>
+                                    <option value="recency_days:asc">Sort: Most Recently Active</option>
+                                    <option value="profit_margin:asc">Sort: Lowest Profit Margin</option>
+                                </select>
+                            </div>
+                            <button class="btn-secondary" id="btn-open-compare">
+                                <span>⚖️ Compare 2 Customers</span>
+                            </button>
+                        </div>
+
+                        <!-- Layout: Customer List (Left) + Customer 360 Dossier (Right) -->
+                        <div class="profiles-split-layout">
+                            <div class="customer-list-panel">
+                                <div class="list-header">
+                                    <span class="list-title">Customer Registry</span>
+                                    <span class="list-count" id="customer-list-count">Loading...</span>
+                                </div>
+                                <div class="customer-cards-scroll" id="customer-cards-container">
+                                    <!-- Dynamic customer list items -->
+                                </div>
+                            </div>
+
+                            <div class="customer-dossier-panel" id="customer-dossier-container">
+                                <div class="dossier-empty-state">
+                                    <div class="empty-icon">👤</div>
+                                    <h3>Select a customer to view their explainable 360 profile</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 3. EARLY-WARNING & BEHAVIORAL CHANGE DETECTION VIEW -->
+                <section id="view-alerts" class="view-pane">
+                    <div class="alerts-container">
+                        <div class="alerts-summary-cards">
+                            <div class="alert-kpi-card alert-crit">
+                                <div class="kpi-num" id="alert-crit-count">0</div>
+                                <div class="kpi-label">Critical Alerts</div>
+                                <div class="kpi-sub">High-value recency drift & margin collapse</div>
+                            </div>
+                            <div class="alert-kpi-card alert-warn">
+                                <div class="kpi-num" id="alert-warn-count">0</div>
+                                <div class="kpi-label">Warning Signals</div>
+                                <div class="kpi-sub">Order velocity drop & spend contraction</div>
+                            </div>
+                            <div class="alert-kpi-card alert-opp">
+                                <div class="kpi-num" id="alert-opp-count">0</div>
+                                <div class="kpi-label">Growth Opportunities</div>
+                                <div class="kpi-sub">Emerging VIP momentum acceleration</div>
+                            </div>
+                            <div class="alert-kpi-card alert-info">
+                                <div class="kpi-num" id="alert-iso-count">0</div>
+                                <div class="kpi-label">Isolation Forest Outliers</div>
+                                <div class="kpi-sub">Multivariate behavioral anomalies</div>
+                            </div>
+                        </div>
+
+                        <!-- Alerts Filter Tabs -->
+                        <div class="alerts-filter-bar">
+                            <div class="alert-tabs">
+                                <button class="alert-tab active" data-severity="ALL">All Alerts</button>
+                                <button class="alert-tab" data-severity="CRITICAL">Critical Only</button>
+                                <button class="alert-tab" data-severity="WARNING">Warnings</button>
+                                <button class="alert-tab" data-severity="OPPORTUNITY">Opportunities</button>
+                                <button class="alert-tab" data-severity="INFO">Isolation Forest</button>
+                            </div>
+                            <div class="detection-disclaimer">
+                                ℹ️ Non-Defamatory Audit: Statistical anomalies highlight behavioral change, not proof of customer dissatisfaction or fraud.
+                            </div>
+                        </div>
+
+                        <div class="alerts-grid" id="alerts-grid-container">
+                            <!-- Dynamic alert cards -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 4. CUSTOMER FUTURE LAB (DIGITAL TWIN) VIEW -->
+                <section id="view-future-lab" class="view-pane">
+                    <div class="future-lab-container">
+                        <div class="lab-banner">
+                            <div class="banner-icon">🧪</div>
+                            <div class="banner-content">
+                                <h3>Interactive Customer Digital Twin & Scenario Simulator</h3>
+                                <p>Simulate hypothetical behavioral adjustments (recency, basket size, frequency, discounts) and inspect conditional model predictions. Features strict constraint verification, real trained model inference, and 80% prediction intervals.</p>
+                            </div>
+                        </div>
+
+                        <div class="lab-grid">
+                            <!-- Left: Behavioral Controls -->
+                            <div class="lab-controls-card">
+                                <h4>Scenario Simulation Inputs</h4>
+                                <div class="form-group">
+                                    <label for="lab-customer-select">Select Customer Account:</label>
+                                    <select id="lab-customer-select" class="control-select">
+                                        <!-- Loaded dynamically -->
+                                    </select>
+                                </div>
+
+                                <div class="slider-group">
+                                    <div class="slider-header">
+                                        <label for="lab-recency">Hypothetical Recency (Days Inactive):</label>
+                                        <span class="slider-val" id="lab-recency-val">30 d</span>
+                                    </div>
+                                    <input type="range" id="lab-recency" min="1" max="500" value="30" class="control-range">
+                                </div>
+
+                                <div class="slider-group">
+                                    <div class="slider-header">
+                                        <label for="lab-frequency">Lifetime Order Frequency:</label>
+                                        <span class="slider-val" id="lab-frequency-val">10 orders</span>
+                                    </div>
+                                    <input type="range" id="lab-frequency" min="1" max="40" value="10" class="control-range">
+                                </div>
+
+                                <div class="slider-group">
+                                    <div class="slider-header">
+                                        <label for="lab-aov">Average Order Value (AOV $):</label>
+                                        <span class="slider-val" id="lab-aov-val">$450</span>
+                                    </div>
+                                    <input type="range" id="lab-aov" min="20" max="3000" step="10" value="450" class="control-range">
+                                </div>
+
+                                <div class="slider-group">
+                                    <div class="slider-header">
+                                        <label for="lab-discount">Average Promotional Discount:</label>
+                                        <span class="slider-val" id="lab-discount-val">10%</span>
+                                    </div>
+                                    <input type="range" id="lab-discount" min="0" max="60" step="1" value="10" class="control-range">
+                                </div>
+
+                                <div class="slider-group">
+                                    <div class="slider-header">
+                                        <label for="lab-recent-orders">Recent 6-Month Orders (Momentum):</label>
+                                        <span class="slider-val" id="lab-recent-orders-val">3 orders</span>
+                                    </div>
+                                    <input type="range" id="lab-recent-orders" min="0" max="15" value="3" class="control-range">
+                                </div>
+
+                                <div class="lab-actions">
+                                    <button class="btn-primary" id="btn-run-simulation">
+                                        <span>Run Simulation</span>
+                                        <span>⚡</span>
+                                    </button>
+                                    <button class="btn-secondary" id="btn-reset-simulation">Reset to Baseline</button>
+                                </div>
+
+                                <div class="constraint-error-box" id="lab-error-box" style="display: none;"></div>
+                            </div>
+
+                            <!-- Right: Simulation Results & Causal Bounds -->
+                            <div class="lab-results-card">
+                                <h4>Simulation Model Outcome</h4>
+                                <div id="lab-results-content">
+                                    <div class="lab-empty">Select a customer and adjust sliders to simulate.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 5. OPPORTUNITY CENTER VIEW -->
+                <section id="view-opportunity-center" class="view-pane">
+                    <div class="opportunity-container">
+                        <div class="opp-top-controls">
+                            <div class="opp-control-item">
+                                <label for="opp-budget">Intervention Budget ($):</label>
+                                <input type="number" id="opp-budget" class="control-input" value="5000" min="500" max="50000" step="500">
+                            </div>
+                            <div class="opp-control-item">
+                                <label for="opp-goal">Prioritization Strategy:</label>
+                                <select id="opp-goal" class="control-select">
+                                    <option value="PREVENT_CHURN_HIGH_LTV">Prevent Churn on High LTV (Protect Value)</option>
+                                    <option value="MAXIMIZE_EXPECTED_ROI">Maximize Expected ROI (Conversion Elasticity)</option>
+                                    <option value="WINBACK_DORMANT">Win-Back Dormant Accounts</option>
+                                    <option value="NURTURE_POTENTIAL_LOYALISTS">Nurture Potential Loyalists & Onboarding</option>
+                                </select>
+                            </div>
+                            <button class="btn-primary" id="btn-optimize-campaign">Optimize Allocation</button>
+                        </div>
+
+                        <!-- Summary KPIs & Benchmark Comparison -->
+                        <div class="opp-summary-grid">
+                            <div class="opp-metric-card">
+                                <div class="opp-metric-val" id="opp-targeted-count">0</div>
+                                <div class="opp-metric-label">Targeted Accounts</div>
+                            </div>
+                            <div class="opp-metric-card">
+                                <div class="opp-metric-val" id="opp-budget-used">$0</div>
+                                <div class="opp-metric-label">Budget Utilized</div>
+                            </div>
+                            <div class="opp-metric-card">
+                                <div class="opp-metric-val highlight-green" id="opp-incr-rev">$0</div>
+                                <div class="opp-metric-label">Projected Incremental Return</div>
+                            </div>
+                            <div class="opp-metric-card">
+                                <div class="opp-metric-val highlight-blue" id="opp-roi">0.0x</div>
+                                <div class="opp-metric-label">Expected Portfolio ROI</div>
+                            </div>
+                        </div>
+
+                        <!-- Benchmark Comparison Card -->
+                        <div class="opp-benchmark-card" id="opp-benchmark-content">
+                            <!-- Injected dynamically -->
+                        </div>
+
+                        <!-- Ranked Action Table -->
+                        <div class="opp-table-card">
+                            <div class="table-card-header">
+                                <h4>Allocated Customer Interventions</h4>
+                                <span class="badge badge-strategy" id="opp-active-strategy">PREVENT_CHURN_HIGH_LTV</span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table" id="opp-action-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Priority</th>
+                                            <th>Customer</th>
+                                            <th>Segment</th>
+                                            <th>Predicted LTV</th>
+                                            <th>Recommended Action</th>
+                                            <th>Cost</th>
+                                            <th>Est. Return</th>
+                                            <th>Net ROI</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="opp-action-table-body">
+                                        <!-- Dynamic rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 6. AUTOMATED INSIGHT FEED VIEW -->
+                <section id="view-insights" class="view-pane">
+                    <div class="insights-container">
+                        <div class="insights-header-block">
+                            <h3>Automated Insight Discovery Feed</h3>
+                            <p>Self-directed analytical engine scanning revenue concentration, segment shifts, category affinities, unit margins, and predictive model health. Every finding separates descriptive facts from hypotheses and recommended actions.</p>
+                        </div>
+
+                        <div class="insights-feed-grid" id="insights-grid-container">
+                            <!-- Dynamic insight cards -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 7. MODEL HEALTH & DRIFT MONITOR VIEW -->
+                <section id="view-model-health" class="view-pane">
+                    <div class="health-container">
+                        <div class="health-overview-card">
+                            <div class="health-status-badge-area">
+                                <div class="status-indicator-badge status-healthy" id="health-main-status">HEALTHY</div>
+                                <div class="status-meta">
+                                    <h3 id="health-status-title">Model Feature Registry Stable</h3>
+                                    <p id="health-status-desc">All input distributions within baseline tolerances (PSI &lt; 0.10).</p>
+                                </div>
+                            </div>
+                            <div class="health-meta-grid">
+                                <div class="h-meta-item">
+                                    <span class="h-label">Algorithm:</span>
+                                    <span class="h-val" id="h-model-algo">Gradient Boosting (120 Trees)</span>
+                                </div>
+                                <div class="h-meta-item">
+                                    <span class="h-label">Cross-Validated MAE:</span>
+                                    <span class="h-val" id="h-model-mae">$965.44</span>
+                                </div>
+                                <div class="h-meta-item">
+                                    <span class="h-label">Prediction Horizon:</span>
+                                    <span class="h-val">12 Months Forward</span>
+                                </div>
+                                <div class="h-meta-item">
+                                    <span class="h-label">Uncertainty Bounds:</span>
+                                    <span class="h-val">80% Empirical Residual Quantiles</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Feature Drift (PSI) Table -->
+                        <div class="health-table-card">
+                            <div class="table-card-header">
+                                <h4>Population Stability Index (PSI) Feature Drift Audit</h4>
+                                <span class="psi-legend">
+                                    <span class="dot dot-green"></span> Stable (&lt;0.10)
+                                    <span class="dot dot-amber"></span> Moderate (0.10-0.25)
+                                    <span class="dot dot-red"></span> Action Required (&gt;0.25)
+                                </span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="data-table" id="psi-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Feature Name</th>
+                                            <th>PSI Score</th>
+                                            <th>Status</th>
+                                            <th>Baseline Mean</th>
+                                            <th>Current Mean</th>
+                                            <th>Mean Shift</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="psi-table-body">
+                                        <!-- Dynamic PSI rows -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Missingness and Segment Slices Grid -->
+                        <div class="health-sub-grid">
+                            <div class="health-sub-card">
+                                <h4>Missing Value & Schema Audit</h4>
+                                <div id="missingness-content">
+                                    <!-- Injected -->
+                                </div>
+                            </div>
+                            <div class="health-sub-card">
+                                <h4>Segment Slice Diagnostics</h4>
+                                <div id="slices-content">
+                                    <!-- Injected -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 8. EXECUTIVE BUSINESS REPORTS VIEW -->
+                <section id="view-reports" class="view-pane">
+                    <div class="reports-container">
+                        <div class="reports-header-card">
+                            <h3>Executive Intelligence Reports & Review Deliverables</h3>
+                            <p>Generate verifiable, publication-grade business review reports directly from current dataset calculations and machine learning predictions.</p>
+                        </div>
+
+                        <div class="download-cards-grid">
+                            <div class="download-card">
+                                <div class="doc-icon pdf-icon">📄</div>
+                                <h4>Executive Review PDF Report</h4>
+                                <p>Comprehensive multi-page PDF featuring executive summary, portfolio segmentation, opportunity rankings, behavioral warning signals, and model governance.</p>
+                                <a href="/api/reports/download/pdf" class="btn-download" download>
+                                    <span>Download PDF Report</span>
+                                    <span>↓</span>
+                                </a>
+                            </div>
+
+                            <div class="download-card">
+                                <div class="doc-icon xlsx-icon">📊</div>
+                                <h4>Multi-Tab Excel Intelligence Workbook</h4>
+                                <p>5 structured analytical sheets including Executive KPIs, Full 793 Customer Registry, $5K Action Plan, Active Behavioral Alerts, and Feature Drift PSI.</p>
+                                <a href="/api/reports/download/excel" class="btn-download" download>
+                                    <span>Download Excel Workbook</span>
+                                    <span>↓</span>
+                                </a>
+                            </div>
+
+                            <div class="download-card">
+                                <div class="doc-icon csv-icon">📁</div>
+                                <h4>Customer Features & Predictions (CSV)</h4>
+                                <p>Full enriched tabular export containing point-in-time engineered behavioral features, RFM scores, predicted 12M LTVs, and prediction intervals.</p>
+                                <a href="/api/reports/download/csv" class="btn-download" download>
+                                    <span>Download CSV Dataset</span>
+                                    <span>↓</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+        </div>
+    </div>
+
+    <!-- Comparison Modal -->
+    <div class="modal-backdrop" id="compare-modal" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-header">
+                <h3>Dual Customer Intelligence Comparison</h3>
+                <button class="modal-close-btn" id="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="compare-selectors">
+                    <div class="form-group">
+                        <label for="compare-cust-a">Customer A:</label>
+                        <select id="compare-cust-a" class="control-select"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="compare-cust-b">Customer B:</label>
+                        <select id="compare-cust-b" class="control-select"></select>
+                    </div>
+                    <button class="btn-primary" id="btn-run-compare">Compare</button>
+                </div>
+                <div id="compare-result-container">
+                    <!-- Dynamic comparison table & charts -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Script -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
+
